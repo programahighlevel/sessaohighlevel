@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sessão High Level · Carla Oliveira</title>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-light: #f5f5f3;
+      --gray-mid: #e8e8e4;
+      --gray-text: #888880;
+      --accent: #0a0a0a;
+      --gold: #c9a84c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-header .logo { font-size: 13px; letter-spacing: 4px; text-transform: uppercase; font-family: sans-serif; }
+    .site-header .plan-label { font-size: 12px; letter-spacing: 2px; color: #aaa; font-family: sans-serif; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 96px 48px 80px;
+      border-bottom: 1px solid #222;
+    }
+    .hero .pre { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-family: sans-serif; margin-bottom: 24px; }
+    .hero h1 { font-size: clamp(48px, 6vw, 80px); font-weight: 400; line-height: 1.1; margin-bottom: 8px; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero .subtitle { font-size: 16px; color: #aaa; margin-top: 20px; font-family: sans-serif; }
+    .hero .meta { margin-top: 40px; display: flex; gap: 40px; flex-wrap: wrap; }
+    .hero .meta-item { }
+    .hero .meta-item .label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #666; font-family: sans-serif; }
+    .hero .meta-item .value { font-size: 14px; color: #ccc; font-family: sans-serif; margin-top: 4px; }
+
+    /* ── INDEX ── */
+    .index-bar {
+      background: var(--gray-light);
+      border-bottom: 1px solid var(--gray-mid);
+      padding: 20px 48px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-family: sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    .index-bar a { color: var(--gray-text); text-decoration: none; }
+    .index-bar a:hover { color: var(--black); }
+
+    /* ── RESUMO ── */
+    .summary-block {
+      background: var(--black);
+      color: var(--white);
+      padding: 48px;
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.8;
+      border-left: 3px solid var(--gold);
+    }
+    .summary-block p { max-width: 760px; }
+    .summary-block strong { color: var(--gold); }
+
+    /* ── CHECKLIST BAR ── */
+    .checklist-bar {
+      background: var(--gray-light);
+      padding: 16px 48px;
+      font-family: sans-serif;
+      font-size: 13px;
+      color: var(--gray-text);
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    /* ── SECTION ── */
+    .section {
+      padding: 80px 48px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+    .section:nth-child(even) { background: var(--gray-light); }
+
+    .section-num {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      font-family: sans-serif;
+      margin-bottom: 8px;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: var(--black);
+      color: var(--white);
+      padding: 4px 10px;
+      font-family: sans-serif;
+      margin-bottom: 24px;
+    }
+    .section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 40px;
+    }
+    .section h2 em { font-style: italic; color: var(--gold); }
+
+    /* cards */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; font-family: sans-serif; }
+    .card p, .card li { font-size: 15px; line-height: 1.8; }
+    .card ul { padding-left: 20px; }
+    .card ul li { margin-bottom: 8px; }
+
+    /* quote */
+    .quote-block {
+      border-left: 3px solid var(--gold);
+      padding: 24px 32px;
+      background: var(--black);
+      color: var(--white);
+      margin: 32px 0;
+      font-size: 18px;
+      font-style: italic;
+      line-height: 1.7;
+    }
+    .quote-block .attr {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      font-style: normal;
+      font-family: sans-serif;
+      margin-top: 16px;
+      display: block;
+    }
+
+    /* two-col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* table */
+    table { width: 100%; border-collapse: collapse; margin: 24px 0; font-family: sans-serif; font-size: 14px; }
+    thead { background: var(--black); color: var(--white); }
+    thead th { padding: 12px 16px; text-align: left; letter-spacing: 1px; font-weight: 500; }
+    tbody tr { border-bottom: 1px solid var(--gray-mid); }
+    tbody td { padding: 12px 16px; vertical-align: top; }
+    tbody tr:hover { background: var(--gray-light); }
+    .bold-cell { font-weight: 600; }
+
+    /* tag pills */
+    .tag { display: inline-block; padding: 3px 10px; background: var(--gray-mid); font-size: 11px; letter-spacing: 1px; font-family: sans-serif; margin: 2px; }
+    .tag-gold { background: var(--gold); color: var(--white); }
+
+    /* highlight box */
+    .highlight {
+      background: var(--gold);
+      color: var(--white);
+      padding: 32px;
+      margin: 32px 0;
+    }
+    .highlight h3 { font-size: 20px; margin-bottom: 8px; }
+    .highlight p { font-size: 15px; line-height: 1.7; }
+
+    /* checklist items */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      align-items: flex-start;
+      font-size: 15px;
+    }
+    .checklist li .check-box {
+      width: 20px; height: 20px;
+      border: 2px solid var(--black);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .checklist li .when { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-family: sans-serif; margin-left: auto; white-space: nowrap; padding-left: 16px; }
+
+    /* pitch steps */
+    .pitch-step {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 32px;
+      align-items: flex-start;
+    }
+    .pitch-step .step-num {
+      width: 48px;
+      height: 48px;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pitch-step .step-content h3 { font-size: 16px; margin-bottom: 8px; font-family: sans-serif; font-weight: 700; }
+    .pitch-step .step-content p { font-size: 15px; line-height: 1.7; }
+
+    /* timeline */
+    .timeline { border-left: 2px solid var(--gold); padding-left: 32px; margin: 32px 0; }
+    .timeline-item { margin-bottom: 32px; position: relative; }
+    .timeline-item::before {
+      content: '';
+      width: 12px; height: 12px;
+      background: var(--gold);
+      position: absolute;
+      left: -39px;
+      top: 4px;
+    }
+    .timeline-item .time-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-family: sans-serif; margin-bottom: 6px; }
+    .timeline-item h3 { font-size: 17px; margin-bottom: 8px; font-family: sans-serif; font-weight: 700; }
+    .timeline-item p { font-size: 15px; line-height: 1.7; }
+
+    /* escalation */
+    .staircase { display: flex; gap: 2px; margin: 32px 0; align-items: flex-end; flex-wrap: wrap; }
+    .stair {
+      flex: 1;
+      min-width: 160px;
+      padding: 20px;
+      font-family: sans-serif;
+    }
+    .stair:nth-child(1) { background: #f0f0ec; min-height: 100px; }
+    .stair:nth-child(2) { background: #e0e0d8; min-height: 130px; }
+    .stair:nth-child(3) { background: var(--black); color: var(--white); min-height: 160px; }
+    .stair:nth-child(4) { background: var(--gold); color: var(--white); min-height: 190px; }
+    .stair .stair-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.7; }
+    .stair .stair-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .stair .stair-price { font-size: 20px; font-weight: 800; }
+    .stair .stair-desc { font-size: 12px; margin-top: 8px; opacity: 0.8; line-height: 1.5; }
+
+    /* footer */
+    footer {
+      background: var(--black);
+      color: #555;
+      text-align: center;
+      padding: 40px;
+      font-family: sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    /* SPECIAL: apresentação section */
+    .apres-section {
+      background: var(--black) !important;
+      color: var(--white) !important;
+    }
+    .apres-section p,
+    .apres-section li,
+    .apres-section .timeline-item p,
+    .apres-section .timeline-item h3 {
+      color: var(--white);
+    }
+    .apres-section .section-num { color: var(--gold); }
+    .apres-section h2 em { color: var(--gold); }
+    .apres-section .card { background: #111; border-color: #333; color: var(--white); }
+    .apres-section .card h3 { color: var(--gold); }
+    .apres-section table { color: var(--white); }
+    .apres-section thead { background: var(--gold); }
+    .apres-section tbody tr { border-color: #333; }
+    .apres-section tbody tr:hover { background: #1a1a1a; }
+    .apres-section .timeline { border-color: var(--gold); }
+    .apres-section .timeline-item::before { background: var(--gold); }
+    .apres-section .pitch-step .step-num { background: var(--gold); color: var(--white); }
+    .apres-section .highlight { background: #1a1a1a; border: 1px solid var(--gold); }
+    .apres-section .highlight h3 { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .site-header, .hero, .index-bar, .section, .summary-block, .checklist-bar { padding-left: 20px; padding-right: 20px; }
+      .staircase { flex-direction: column; }
+      .stair { min-height: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <span class="logo">High Level</span>
+  <span class="plan-label">Sessão High Level</span>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="pre">Sessão High Level</div>
+  <h1>Carla <em>Oliveira</em></h1>
+  <p class="subtitle">Especialista em IA & Automação para Negócios · Inocência, MS</p>
+  <div class="meta">
+    <div class="meta-item">
+      <div class="label">Data</div>
+      <div class="value">28 de maio de 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Fase</div>
+      <div class="value">Estruturação & Lançamento</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Método</div>
+      <div class="value">High Level</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Próximo marco</div>
+      <div class="value">Workshop Presencial · Dia 16</div>
+    </div>
+  </div>
+</section>
+
+<!-- INDEX -->
+<nav class="index-bar">
+  <a href="#sec01">01 · Posicionamento</a>
+  <a href="#sec02">02 · Esteira de Produtos</a>
+  <a href="#sec03">03 · Workshop do Dia 16</a>
+  <a href="#sec04">04 · Estrutura da Apresentação</a>
+  <a href="#sec05">05 · Oferta & Ancoragem</a>
+  <a href="#sec06">06 · Metas</a>
+  <a href="#sec07">07 · Conteúdo QGV</a>
+  <a href="#sec08">08 · Checklist</a>
+</nav>
+
+<!-- RESUMO -->
+<div class="summary-block">
+  <p>
+    Na sessão, Carla apresentou sua trajetória em automação e IA — de serviços de implementação para infoprodutores a uma visão clara de ensinar empresas locais de Inocência (MS) a usarem IA para aumentar produtividade e faturamento. A sessão foi dedicada a: (1) <strong>definir seu posicionamento e ICP</strong> entre empresários e profissionais locais; (2) <strong>estruturar a esteira completa</strong> de workshop presencial → mentoria em grupo → implementação; e (3) <strong>preparar o workshop do dia 16</strong> — o evento que vai gerar as primeiras vendas da mentoria. O objetivo das próximas semanas é fazer o workshop acontecer, entregar muito valor e fechar de 3 a 9 mentorias nesse mesmo dia.
+  </p>
+</div>
+
+<!-- CHECKLIST BAR -->
+<div class="checklist-bar">Checklist · 0 de 15 tarefas concluídas ✦</div>
+
+<!-- ═══ 01 POSICIONAMENTO ═══ -->
+<section class="section" id="sec01">
+  <div class="section-num">01</div>
+  <div class="section-tag">Pilar I</div>
+  <h2>Posicionamento <em>& Nicho</em></h2>
+
+  <div class="card">
+    <h3>Narrativa Central</h3>
+    <p>Carla tem algo que a maioria dos especialistas em IA não tem: <strong>ela mora onde os seus clientes moram</strong>. Ela é de dentro. Conhece os empresários pelo nome, entende a realidade de uma cidade pequena e sabe exatamente quais são as dores do dia a dia de quem tem uma loja, uma clínica ou um escritório em Inocência. A narrativa que move o negócio não é "eu faço automação" — é <strong>"eu mostro para os empresários daqui como a IA pode fazer sua empresa trabalhar por você, sem precisar contratar mais ninguém."</strong> Esse é o diferencial: uma especialista de dentro, com linguagem acessível e solução real para o contexto local.</p>
+  </div>
+
+  <div class="quote-block">
+    "Sua empresa já trabalha duro. Mas e se a IA trabalhasse por ela — respondendo clientes, organizando processos e aumentando a produtividade — enquanto você foca no que importa?"
+    <span class="attr">Gancho de abertura para reels, apresentações e convites para o workshop</span>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Promessa Central</h3>
+      <p>Eu ensino empresários e profissionais a usar IA para aumentar a produtividade e o faturamento do negócio — sem precisar de conhecimento técnico, sem contratar mais funcionários e sem virar escravo da tecnologia.</p>
+    </div>
+    <div class="card">
+      <h3>ICP Principal</h3>
+      <ul>
+        <li>Empresários locais com lojas físicas (varejo, autopeças, materiais de construção)</li>
+        <li>Profissionais liberais (dentistas, médicos, contadores, advogados)</li>
+        <li>Pequenas empresas que querem crescer sem contratar mais</li>
+        <li>Donos de negócio que já ouviram falar de IA mas não sabem por onde começar</li>
+        <li>Ticket compatível com R$297 (workshop) e R$3.000–R$5.000 (mentoria)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Inimigo em Comum</h3>
+      <ul>
+        <li><strong>A ilusão de que IA é coisa de empresa grande</strong> — o empresário local acha que não é para ele</li>
+        <li><strong>O tempo desperdiçado em tarefas repetitivas</strong> — responder as mesmas perguntas, fazer as mesmas planilhas, controlar estoque na mão</li>
+        <li><strong>A dependência de funcionários para tudo</strong> — um funcionário falta e o negócio trava</li>
+        <li><strong>O medo do tecnológico</strong> — "não sou do ramo" é a desculpa que mantém o empresário para trás</li>
+        <li><strong>Cursos online que não ensinam para a realidade deles</strong> — ensinam para startups, não para quem tem uma loja física</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Sugestão de Bio</h3>
+      <p><strong>Instagram (curta)</strong><br/>Especialista em IA para negócios · Ensino empresários a usar IA para vender mais, gastar menos e ter mais tempo · Workshop + Mentoria</p>
+      <br/>
+      <p><strong>Linha de abertura de vídeo</strong><br/>Eu sou a Carla Oliveira, especialista em inteligência artificial para negócios. Eu ensino empresários aqui da região a usar IA para aumentar a produtividade sem precisar de equipe técnica.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 ESTEIRA DE PRODUTOS ═══ -->
+<section class="section" id="sec02">
+  <div class="section-num">02</div>
+  <div class="section-tag">Pilar II</div>
+  <h2>Esteira Completa <em>de Produtos</em></h2>
+
+  <p style="font-size:15px;max-width:680px;margin-bottom:40px;">A lógica é simples: cada produto serve de degustação para o próximo. O workshop prova que você sabe. A mentoria acompanha quem quer aprender. A implementação resolve para quem não quer aprender — e paga mais por isso.</p>
+
+  <div class="staircase">
+    <div class="stair">
+      <div class="stair-label">Entrada</div>
+      <div class="stair-name">Workshop Presencial</div>
+      <div class="stair-price">R$297</div>
+      <div class="stair-desc">"IA na Prática para Negócios" · 1 dia · Mão na massa · Para quem quer descobrir o que é possível</div>
+    </div>
+    <div class="stair">
+      <div class="stair-label">Downsell</div>
+      <div class="stair-name">Acompanhamento 30 dias</div>
+      <div class="stair-price">R$1.500</div>
+      <div class="stair-desc">1 encontro individual + grupo VIP + trilha base · Para quem não consegue o programa completo</div>
+    </div>
+    <div class="stair">
+      <div class="stair-label">Produto Principal</div>
+      <div class="stair-name">Mentoria IA na Prática</div>
+      <div class="stair-price">R$3.000–R$5.000</div>
+      <div class="stair-desc">6 meses · Híbrido: grupo + individuais · Ensina a implementar IA no negócio passo a passo</div>
+    </div>
+    <div class="stair">
+      <div class="stair-label">Topo · Done For You</div>
+      <div class="stair-name">Implementação Completa</div>
+      <div class="stair-price">R$10.000+</div>
+      <div class="stair-desc">Carla implementa tudo, treina a equipe, entrega funcionando · Para quem não quer aprender, só quer o resultado</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:32px;">
+    <h3>A Lógica do Funil de Evento</h3>
+    <p>Conteúdo no Instagram → convite para o workshop → workshop entrega muito valor → no final do dia você faz o pit da mentoria → quem não quer aprender pergunta sobre implementação. <strong>Com 30 pessoas no workshop e 30% de conversão, você fecha 9 mentorias a R$3.000 = R$27.000 em um único dia.</strong> Some os ingressos e chega a R$35k. Com a implementação, a conta só sobe.</p>
+  </div>
+</section>
+
+<!-- ═══ 03 WORKSHOP DO DIA 16 ═══ -->
+<section class="section apres-section" id="sec03">
+  <div class="section-num" style="color:var(--gold)">03</div>
+  <div class="section-tag" style="background:var(--gold);color:var(--white)">Pilar III · Foco Principal</div>
+  <h2 style="color:var(--white)">Workshop <em>do Dia 16</em></h2>
+
+  <p style="font-size:15px;max-width:680px;margin-bottom:40px;color:#bbb;">Este é o evento que vai gerar as primeiras vendas da mentoria. Cada decisão — da comunicação prévia ao encerramento — deve ser tomada pensando no pit de vendas do final do dia. Abaixo, tudo o que precisa acontecer para que o dia 16 gere resultado real.</p>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Dados do Evento</h3>
+      <ul>
+        <li><strong>Nome:</strong> IA na Prática para Negócios</li>
+        <li><strong>Formato:</strong> Presencial · 1 dia inteiro</li>
+        <li><strong>Local:</strong> Inocência, MS (sala cedida pela prefeitura ou parceiro local)</li>
+        <li><strong>Capacidade ideal:</strong> 20 a 30 pessoas</li>
+        <li><strong>Ticket:</strong> R$297 por pessoa</li>
+        <li><strong>Requisito:</strong> Todos os participantes vêm com notebook ou tablet</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Objetivo do Dia</h3>
+      <ul>
+        <li>Entregar tanto valor que as pessoas saem querendo mais</li>
+        <li>Mostrar que você domina o assunto com autoridade e simplicidade</li>
+        <li>Gerar desejo pelo produto de acompanhamento (mentoria)</li>
+        <li>Converter de 30 a 40% dos participantes em mentorados</li>
+        <li><strong>Meta financeira:</strong> R$27.000 em mentorias + R$8.910 em ingressos</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <h3 style="color:var(--gold);font-family:sans-serif;font-size:16px;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">Cronograma do Dia</h3>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="time-label">08h30 – Abertura</div>
+        <h3>Recepção & Aquecimento</h3>
+        <p>Check-in, café, criação de clima. Pessoas se apresentam. Você quebra o gelo com uma pergunta: <em>"Levanta a mão quem já perdeu um cliente por demora no atendimento."</em> Cenário criado. Agora você tem a atenção da sala.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="time-label">09h00 – Bloco 1</div>
+        <h3>O que é IA e por que seu negócio precisa disso agora</h3>
+        <p>Introdução às principais ferramentas: ChatGPT, Claude, Gemini, Notebook LM. Mostra o que cada uma faz. Usa exemplos reais do contexto local — loja de autopeças, consultório odontológico, loja de variedades. A pergunta que guia este bloco: <em>"Que tarefa sua equipe repete todo dia que a IA poderia fazer no lugar?"</em></p>
+      </div>
+      <div class="timeline-item">
+        <div class="time-label">10h30 – Bloco 2</div>
+        <h3>Mão na Massa: criando seu primeiro agente</h3>
+        <p>Todo mundo abre o computador. Você guia a turma na criação de um ChatGPT personalizado para o negócio de cada um — com personalidade, contexto e instruções. Quem tem clínica cria um agente para responder pacientes. Quem tem loja cria um agente de atendimento. <strong>Todo mundo sai com algo funcionando nas mãos.</strong></p>
+      </div>
+      <div class="timeline-item">
+        <div class="time-label">12h00 – Almoço</div>
+        <h3>Pausa + Network informal</h3>
+        <p>Momento de conexão. Você circula, ouve o que as pessoas estão fazendo com o que aprenderam, identifica quem tem mais interesse e quem pode ser um cliente forte para a mentoria.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="time-label">13h30 – Bloco 3</div>
+        <h3>Prompts que vendem: escrevendo para a IA trabalhar por você</h3>
+        <p>Ensina a criar prompts profissionais para diferentes usos: atendimento ao cliente, criação de conteúdo, organização de processos, análise de documentos. Demonstração ao vivo com Notebook LM — como analisar contratos, relatórios e documentos longos em segundos.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="time-label">15h00 – Bloco 4</div>
+        <h3>Como a IA pode aumentar o faturamento da sua empresa</h3>
+        <p>Parte estratégica: IA no atendimento, IA no marketing, IA na gestão. Mostra o antes e depois — o tempo economizado se converte em mais clientes atendidos, mais vendas fechadas, mais receita. <strong>Aqui você planta o desejo: e se você tivesse alguém do seu lado para implementar tudo isso no seu negócio?</strong></p>
+      </div>
+      <div class="timeline-item">
+        <div class="time-label">16h30 – Encerramento + Pit</div>
+        <h3>A oferta da Mentoria IA na Prática</h3>
+        <p>Você encerra o conteúdo, agradece a presença, reconhece o esforço de quem ficou o dia inteiro. Então faz a transição para o pit com naturalidade. Script completo na próxima seção.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 ESTRUTURA DA APRESENTAÇÃO ═══ -->
+<section class="section" id="sec04">
+  <div class="section-num">04</div>
+  <div class="section-tag">Pilar IV · Narrativa</div>
+  <h2>Estrutura da <em>Apresentação</em></h2>
+
+  <p style="font-size:15px;max-width:680px;margin-bottom:40px;">Uma apresentação que vende tem três momentos: <strong>início</strong> que prende, <strong>meio</strong> que educa e cria desejo, <strong>fim</strong> que converte. Abaixo, o roteiro completo para o dia 16.</p>
+
+  <!-- INÍCIO -->
+  <h3 style="font-family:sans-serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;">INÍCIO · Primeiros 20 minutos</h3>
+
+  <div class="pitch-step">
+    <div class="step-num">A</div>
+    <div class="step-content">
+      <h3>O Gancho (primeiros 3 minutos)</h3>
+      <p>Não comece se apresentando. Comece com uma provocação que coloca todo mundo no mesmo barco. Use números reais ou uma história curta:</p>
+      <div class="quote-block" style="margin-top:16px;font-size:16px;">
+        "Sabe quanto tempo uma empresa média perde por semana respondendo as mesmas perguntas nos WhatsApp, fazendo as mesmas planilhas e controlando os mesmos processos que já deveriam ser automáticos? Um levantamento da McKinsey diz que são 19 horas. Quase metade da semana de trabalho. Imagina o que você faria com essas 19 horas de volta."
+        <span class="attr">Pausa. Deixa o número cair. Agora todo mundo quer ouvir o que vem a seguir.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pitch-step">
+    <div class="step-num">B</div>
+    <div class="step-content">
+      <h3>Apresentação de Autoridade (5 minutos)</h3>
+      <p>Só depois do gancho você se apresenta — e de forma estratégica. Não conta tudo. Conta o que é relevante para a audiência.</p>
+      <div class="card" style="margin-top:16px;">
+        <h3>Roteiro da apresentação pessoal</h3>
+        <p><em>"Eu sou a Carla Oliveira. Sou daqui, moro na fazenda aqui perto, e há [X] anos trabalho com automação e inteligência artificial. Comecei ajudando empresas a automatizar processos — e uma coisa que percebi, num workshop que fiz aqui na cidade, é que os empresários daqui têm exatamente as mesmas dores que os grandes centros, mas ninguém chega aqui para ensinar a solução. Então decidi ser essa pessoa. Hoje vocês vão sair daqui com pelo menos uma ferramenta funcionando no negócio de vocês. E eu prometo que é mais simples do que parece."</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pitch-step">
+    <div class="step-num">C</div>
+    <div class="step-content">
+      <h3>Criação do Inimigo em Comum (5 minutos)</h3>
+      <p>Antes de entrar no conteúdo, valide a dor da audiência. Faça perguntas de mão levantada. Cria conexão e aquece a sala.</p>
+      <div class="card" style="margin-top:16px;">
+        <h3>Perguntas para a plateia</h3>
+        <ul>
+          <li>"Quem aqui já perdeu um cliente porque demorou a responder uma mensagem?"</li>
+          <li>"Quem já ficou até tarde fazendo algo repetitivo que podia ser automático?"</li>
+          <li>"Quem já achou que IA era coisa de empresa grande, lá de São Paulo?"</li>
+          <li>"Quem está aqui hoje porque quer mudar alguma coisa no negócio?"</li>
+        </ul>
+        <p style="margin-top:12px;font-style:italic;color:#666;">Deixe as mãos levantadas. Olhe para as pessoas. "Então a gente tem muito em comum."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEIO -->
+  <h3 style="font-family:sans-serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:40px 0 24px;">MEIO · O Conteúdo que Cria Desejo</h3>
+
+  <div class="card">
+    <h3>Princípio do Meio: ensine tanto que as pessoas queiram mais</h3>
+    <p>A tentação é dar pouco para que as pessoas precisem comprar a mentoria. <strong>Faça o oposto.</strong> Entregue mais do que elas esperavam. Isso cria uma dívida emocional de gratidão — e é exatamente isso que converte no pit. Além disso, quem vê que você sabe muito é mais fácil de fechar porque a autoridade já está estabelecida.</p>
+  </div>
+
+  <div style="margin-top:32px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Bloco</th>
+          <th>Tema</th>
+          <th>O que fazer</th>
+          <th>Resultado esperado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold-cell">Bloco 1</td>
+          <td>O universo da IA</td>
+          <td>Mostrar as ferramentas (ChatGPT, Claude, Gemini, Notebook LM) e para que serve cada uma. Desmistificar.</td>
+          <td>"Não sabia que existia isso." Abertura mental.</td>
+        </tr>
+        <tr>
+          <td class="bold-cell">Bloco 2</td>
+          <td>Mão na massa</td>
+          <td>Criar um GPT personalizado para o negócio de cada um ao vivo. Todos participam.</td>
+          <td>"Já tenho algo funcionando." Sensação de conquista.</td>
+        </tr>
+        <tr>
+          <td class="bold-cell">Bloco 3</td>
+          <td>Prompts profissionais</td>
+          <td>Ensinar a escrever prompts que geram resultado real. Exemplos do dia a dia deles.</td>
+          <td>"Eu consigo fazer isso." Autoconfiança.</td>
+        </tr>
+        <tr>
+          <td class="bold-cell">Bloco 4</td>
+          <td>IA e faturamento</td>
+          <td>Mostrar como IA reduz custo operacional e aumenta receita. Números reais.</td>
+          <td>"Quero implementar isso de verdade." Desejo criado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:24px;">
+    <h3>Transição para o Fim — a frase que abre o pit</h3>
+    <p>Essa frase precisa ser dita de forma natural, não forçada. É o momento de virar a chave:</p>
+    <div class="quote-block" style="margin-top:16px;font-size:17px;">
+      "Hoje vocês tiveram uma degustação do que é possível. E eu sei que a maioria de vocês vai sair daqui querendo implementar tudo que aprendeu — mas vai bater numa parede na hora de executar. Eu sei porque já vi isso acontecer muitas vezes. Por isso, deixa eu te contar o que eu tenho para quem quer ir além do workshop."
+      <span class="attr">Pausa de 3 segundos. Silêncio total. Agora você tem a atenção máxima da sala.</span>
+    </div>
+  </div>
+
+  <!-- FIM -->
+  <h3 style="font-family:sans-serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:40px 0 24px;">FIM · O Pit de Vendas</h3>
+
+  <div class="pitch-step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>A Ancoragem (2 minutos)</h3>
+      <p>Antes de mostrar o preço, mostre o valor. Liste os entregáveis da mentoria um a um, com o valor percebido de cada um.</p>
+      <div class="card" style="margin-top:16px;">
+        <h3>Script de ancoragem</h3>
+        <p><em>"O programa de Mentoria IA na Prática tem [X encontros em grupo], [X encontros individuais], trilha de vídeos gravados, grupo de suporte por 6 meses, materiais de implementação e Notion personalizado para o seu negócio. Se você fosse pagar por cada parte separada, estaria falando de mais de R$15.000. Hoje, para quem toma a decisão aqui, é bem diferente."</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pitch-step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>A Virada de Preço (1 minuto)</h3>
+      <p>Presente o preço de tabela primeiro. Depois derruba para o preço do evento.</p>
+      <div class="card" style="margin-top:16px;">
+        <h3>Script de preço</h3>
+        <p><em>"O valor de tabela desse programa vai ser R$5.000. Mas para quem tá aqui hoje — porque vocês fizeram questão de estar presentes, vieram de manhã cedo, ficaram o dia inteiro — eu quero reconhecer isso. Para as [número] primeiras pessoas que fecharem agora, o valor é R$3.000 — ou em até 12x de R$290. Quem fechar agora ainda ganha [bônus: ex: 30 dias de suporte direto no WhatsApp]."</em></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pitch-step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h3>Quebra de Objeções (3 minutos)</h3>
+      <p>Antecipe as objeções antes que as pessoas as falem. Isso mostra que você os entende.</p>
+      <div class="card" style="margin-top:16px;">
+        <table>
+          <thead><tr><th>Objeção</th><th>Resposta</th></tr></thead>
+          <tbody>
+            <tr><td>"Não sei se tenho tempo"</td><td><em>"A mentoria é exatamente para quem não tem tempo. Você aprende a deixar a IA trabalhar por você."</em></td></tr>
+            <tr><td>"É caro pra mim agora"</td><td><em>"O parcelamento sai a R$290. Quanto custa um funcionário? A IA custa menos e não falta."</em></td></tr>
+            <tr><td>"Vou pensar"</td><td><em>"Esse preço é só para hoje. Amanhã voltou pra R$5.000. A decisão que você toma hoje vai mudar os próximos 6 meses do seu negócio."</em></td></tr>
+            <tr><td>"Meu negócio é diferente"</td><td><em>"Por isso tem encontros individuais — a gente adapta tudo para o contexto do seu negócio especificamente."</em></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="pitch-step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h3>O Fechamento (1 minuto)</h3>
+      <p>Dê uma instrução clara. As pessoas precisam saber exatamente o que fazer agora.</p>
+      <div class="quote-block" style="margin-top:16px;font-size:17px;">
+        "Para quem quer garantir o preço de hoje: levanta a mão aqui. Minha equipe vai até você. Ou me manda mensagem agora no [número]. As vagas com esse preço são limitadas — quando esgotarem, acabou. Quem topar, a gente já resolve na hora."
+        <span class="attr">Sorria. Fique em silêncio. Deixe as mãos levantarem.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOWNSELL -->
+  <div class="highlight" style="margin-top:40px;">
+    <h3>Não esqueça o Downsell</h3>
+    <p>Para quem não fechar a mentoria no dia: tenha uma segunda oferta pronta. "Para quem não pode fazer o programa completo agora, tenho uma opção de 30 dias por R$1.500 — um encontro individual, acesso ao grupo e à trilha base. Só para quem decidir hoje." Isso captura quem estava na borda.</p>
+  </div>
+
+  <div class="card" style="margin-top:24px;">
+    <h3>Dois tipos de cliente vão surgir no workshop</h3>
+    <p>
+      <strong>1. Quem quer aprender → Mentoria</strong> (R$3.000–R$5.000): ficou animado com o conteúdo, quer implementar, mas precisa de acompanhamento.<br/><br/>
+      <strong>2. Quem não quer aprender → Implementação</strong> (R$10.000+): ficou impressionado, não tem tempo ou paciência para aprender, quer que você faça. Para esses, o workshop foi apenas a porta de entrada. Marque uma conversa individual depois.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ 05 OFERTA & ANCORAGEM ═══ -->
+<section class="section" id="sec05" style="background:var(--gray-light)">
+  <div class="section-num">05</div>
+  <div class="section-tag">Pilar V</div>
+  <h2>Oferta <em>& Ancoragem</em></h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Entregável</th>
+        <th>Valor de Ancoragem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Trilha gravada (módulos de IA na prática)</td><td class="bold-cell">R$2.500,00</td></tr>
+      <tr><td>Encontros em grupo quinzenais (6 meses)</td><td class="bold-cell">R$3.000,00</td></tr>
+      <tr><td>Encontros individuais (3 sessões)</td><td class="bold-cell">R$3.000,00</td></tr>
+      <tr><td>Planos de implementação pós-encontro</td><td class="bold-cell">R$2.000,00</td></tr>
+      <tr><td>Grupo VIP WhatsApp (6 meses)</td><td class="bold-cell">R$1.500,00</td></tr>
+      <tr><td>Notion de implementação personalizado</td><td class="bold-cell">R$1.500,00</td></tr>
+      <tr><td>Materiais e templates por segmento</td><td class="bold-cell">R$1.000,00</td></tr>
+    </tbody>
+  </table>
+
+  <table style="margin-top:32px;">
+    <thead>
+      <tr>
+        <th>Nível</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bold-cell">⚓ Ancoragem</td>
+        <td>Soma total dos entregáveis — valor percebido real</td>
+        <td class="bold-cell">R$14.500,00</td>
+      </tr>
+      <tr>
+        <td class="bold-cell">Valor de Tabela</td>
+        <td>Preço oficial da mentoria completa 6 meses</td>
+        <td class="bold-cell">R$5.000 à vista ou 12x R$480</td>
+      </tr>
+      <tr style="background:#f0f9f0;">
+        <td class="bold-cell">⭐ Dia do Evento</td>
+        <td>Preço especial para quem fechar no dia 16 — não fica nesse preço</td>
+        <td class="bold-cell">R$3.000 à vista ou 12x R$290</td>
+      </tr>
+      <tr>
+        <td class="bold-cell">Downsell · 30 dias</td>
+        <td>1 encontro individual + grupo VIP + trilha — para quem não faz o completo agora</td>
+        <td class="bold-cell">R$1.500 à vista ou 6x R$280</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ 06 METAS ═══ -->
+<section class="section" id="sec06">
+  <div class="section-num">06</div>
+  <div class="section-tag">Pilar VI</div>
+  <h2>Dashboard de <em>Metas</em></h2>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Meta do Dia 16</h3>
+      <ul>
+        <li><strong>Participantes:</strong> 20 a 30 pessoas</li>
+        <li><strong>Taxa de conversão:</strong> 30%</li>
+        <li><strong>Mentorias fechadas:</strong> 6 a 9</li>
+        <li><strong>Receita de ingressos:</strong> R$5.940 – R$8.910</li>
+        <li><strong>Receita de mentorias:</strong> R$18.000 – R$27.000</li>
+        <li><strong>Total no dia:</strong> R$23.940 – R$35.910</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Projeção 90 dias (2 workshops)</h3>
+      <ul>
+        <li>Workshop 1 (dia 16): até R$35k</li>
+        <li>Workshop 2 (agosto): até R$35k</li>
+        <li>Mentorias em andamento: receita recorrente</li>
+        <li>Implementações avulsas: R$10k–R$20k cada</li>
+        <li><strong>Meta trimestral: R$70.000+</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:32px;background:var(--black);">
+    <h3>A matemática que muda tudo</h3>
+    <p>Uma high level do programa fez um workshop de 3 horas, vendeu 50 ingressos a R$197 e fechou 5 mentorias individuais a R$3.000. Resultado: <strong>R$15.000 em uma noite</strong>. Carla tem vantagem: está fazendo um workshop de dia inteiro, presencial, para uma audiência que nunca viu esse conteúdo. O potencial é maior. A taxa de conversão tende a ser mais alta porque a imersão é mais longa.</p>
+  </div>
+</section>
+
+<!-- ═══ 07 CONTEÚDO QGV ═══ -->
+<section class="section" id="sec07" style="background:var(--gray-light)">
+  <div class="section-num">07</div>
+  <div class="section-tag">Pilar VII</div>
+  <h2>Calendário de <em>Conteúdo QGV</em></h2>
+
+  <p style="font-size:15px;max-width:680px;margin-bottom:40px;">Todo conteúdo das próximas semanas tem um objetivo: levar pessoas para o workshop do dia 16. O calendário abaixo segue a lógica QGV — Q cria autoridade, G constrói posicionamento, V converte com prova.</p>
+
+  <h3 style="font-family:sans-serif;letter-spacing:2px;font-size:13px;text-transform:uppercase;color:var(--gray-text);margin-bottom:20px;">Q — Plano Prático · Conteúdo Educativo</h3>
+  <table>
+    <thead><tr><th>#</th><th>Título / Gancho</th><th>Formato</th><th>CTA</th></tr></thead>
+    <tbody>
+      <tr><td>Q1</td><td><strong>"3 coisas que a IA já pode fazer hoje no seu negócio — sem precisar saber programar"</strong></td><td>Reels</td><td>Comenta QUERO que eu te mando o guia</td></tr>
+      <tr><td>Q2</td><td><strong>"Como criar um atendente virtual para o WhatsApp da sua empresa em menos de 10 minutos"</strong></td><td>Carrossel</td><td>Salva esse post</td></tr>
+      <tr><td>Q3</td><td><strong>"ChatGPT vs Claude vs Gemini: qual a diferença e qual usar no seu negócio?"</strong></td><td>Carrossel</td><td>Comenta qual você usa</td></tr>
+      <tr><td>Q4</td><td><strong>"Esse prompt simples vai economizar 2 horas do seu dia — testei com uma loja aqui da região"</strong></td><td>Reels</td><td>Manda DM com PROMPT</td></tr>
+      <tr><td>Q5</td><td><strong>"Como a IA pode analisar seus documentos e relatórios por você — ao vivo"</strong></td><td>Story série</td><td>Responde esse story</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:sans-serif;letter-spacing:2px;font-size:13px;text-transform:uppercase;color:var(--gray-text);margin:32px 0 20px;">G — Posicionamento · Autoridade</h3>
+  <table>
+    <thead><tr><th>#</th><th>Título / Gancho</th><th>Formato</th><th>Tema</th></tr></thead>
+    <tbody>
+      <tr><td>G1</td><td><strong>"Moro na fazenda, sou mãe de três e trabalho com IA. Esse é o meu por quê."</strong></td><td>Reels</td><td>Origem e propósito</td></tr>
+      <tr><td>G2</td><td><strong>"Por que eu decidi parar de implementar IA para empresas e passei a ensinar."</strong></td><td>Reels</td><td>Credibilidade por trajetória</td></tr>
+      <tr><td>G3</td><td><strong>"Minha opinião: IA não vai substituir seu funcionário. Vai substituir quem não sabe usar."</strong></td><td>Carrossel</td><td>Diferenciação</td></tr>
+      <tr><td>G4</td><td><strong>"O erro que todo empresário comete quando ouve falar de IA pela primeira vez."</strong></td><td>Reels</td><td>Inimigo em comum</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:sans-serif;letter-spacing:2px;font-size:13px;text-transform:uppercase;color:var(--gray-text);margin:32px 0 20px;">V — Bastidores + Convite para o Workshop</h3>
+  <table>
+    <thead><tr><th>#</th><th>Título / Gancho</th><th>Formato</th><th>Objetivo</th></tr></thead>
+    <tbody>
+      <tr><td>V1</td><td><strong>"Tô preparando o workshop do dia [16] e quero te mostrar o que vai rolar."</strong> — bastidor da preparação</td><td>Story</td><td>Gerar antecipação</td></tr>
+      <tr><td>V2</td><td><strong>"Olha o que aconteceu no meu workshop gratuito que fiz aqui na cidade."</strong> — conta o resultado dos 2 potenciais clientes</td><td>Reels</td><td>Prova social</td></tr>
+      <tr><td>V3</td><td><strong>Contagem regressiva para o dia 16.</strong> "X dias. [N] vagas. R$297. Clica no link da bio."</strong></td><td>Story diário</td><td>Urgência e conversão</td></tr>
+      <tr><td>V4</td><td><strong>"Último aviso: vagas encerrando para o workshop de IA."</strong></td><td>Reels + Story</td><td>Fechamento de inscrições</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="margin-top:32px;">
+    <h3>Cadência semanal até o dia 16</h3>
+    <ul>
+      <li><strong>Segunda:</strong> Q — conteúdo educativo. Começa a semana entregando valor.</li>
+      <li><strong>Quarta:</strong> G — posicionamento e autoridade. Mostra quem você é.</li>
+      <li><strong>Sexta:</strong> V — bastidores + convite para o workshop. Fecha a semana convertendo.</li>
+      <li><strong>Diário (stories):</strong> Contagem regressiva para o dia 16. Pequenas provas de que o workshop vai ser incrível.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ 08 CHECKLIST ═══ -->
+<section class="section" id="sec08">
+  <div class="section-num">08</div>
+  <div class="section-tag">Execução</div>
+  <h2>Checklist de <em>Implementação</em></h2>
+
+  <ul class="checklist">
+    <li><div class="check-box"></div><span>Definir e confirmar o local do workshop (prefeitura ou parceiro local)</span><span class="when">Hoje</span></li>
+    <li><div class="check-box"></div><span>Criar a página de inscrição (link de pagamento ou formulário) e colocar na bio do Instagram</span><span class="when">Esta semana</span></li>
+    <li><div class="check-box"></div><span>Gravar o primeiro Reels de convite para o workshop (Q ou V) e publicar</span><span class="when">Esta semana</span></li>
+    <li><div class="check-box"></div><span>Definir os 4 blocos de conteúdo do workshop com tópicos e ferramentas para cada bloco</span><span class="when">Esta semana</span></li>
+    <li><div class="check-box"></div><span>Preparar o passo a passo da parte mão na massa (criação do GPT personalizado) para guiar a turma</span><span class="when">Semana 2</span></li>
+    <li><div class="check-box"></div><span>Montar os slides da apresentação do workshop (abertura, blocos, pit de vendas)</span><span class="when">Semana 2</span></li>
+    <li><div class="check-box"></div><span>Preparar o script do pit de vendas e treinar pelo menos uma vez em voz alta</span><span class="when">Semana 2</span></li>
+    <li><div class="check-box"></div><span>Criar a apresentação comercial da mentoria com ancoragem, tabela de entregáveis e preços</span><span class="when">Semana 2</span></li>
+    <li><div class="check-box"></div><span>Publicar contagem regressiva diária nos stories até o dia 16</span><span class="when">Diariamente</span></li>
+    <li><div class="check-box"></div><span>Fazer lista de 30 contatos da cidade para convidar pessoalmente para o workshop</span><span class="when">Semana 1</span></li>
+    <li><div class="check-box"></div><span>Falar diretamente com os 2 potenciais clientes do workshop anterior e confirmar presença no dia 16</span><span class="when">Esta semana</span></li>
+    <li><div class="check-box"></div><span>Parar de gravar vídeos com filtro — qualidade de câmera limpa, boa iluminação, maquiada e arrumada</span><span class="when">Agora</span></li>
+    <li><div class="check-box"></div><span>Acessar o Desafio 5S no Notion High Level e seguir as etapas semana a semana</span><span class="when">Hoje</span></li>
+    <li><div class="check-box"></div><span>Preparar o link de pagamento/contrato da mentoria para fechar no mesmo dia do workshop</span><span class="when">Semana 3</span></li>
+    <li><div class="check-box"></div><span>Realizar o workshop do dia 16, entregar muito valor e fechar de 6 a 9 mentorias 🎯</span><span class="when">Dia 16</span></li>
+  </ul>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  High Level &nbsp;·&nbsp; Método Renata Amadeu &nbsp;·&nbsp; Plano de Ação &nbsp;·&nbsp; Carla Oliveira &nbsp;·&nbsp; Maio 2026
+</footer>
+
+</body>
+</html>
